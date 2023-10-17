@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/Massachusetts_25_transit_block_2021.csv","data/Massachusetts_25_transit_block_group_2021.csv","data/Massachusetts_25_transit_census_tract_2021.csv","data/Massachusetts_25_transit_county_2021.csv","data/Massachusetts_25_transit_state_2021.csv","data/README.txt","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1517,11 +1517,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts">Project thoughts</h2>
+<h2 id="milestone-1-project-thoughts">Milestone 1 – Project thoughts</h2>
 <p>I am interested in exploring data related to mobility justice or transit. It would be interesting to do a project about access to public transportation like trains and buses. For example, how does access to transit differ in regions across the world? How far does the average person have to travel to access their transit services?</p>
 <p>There is UN sustainability data about transportation accessibility that I might look at (some of which I already downloaded to install here later, maybe).</p>
 <p>I could also do something based on bike lanes, with variables like distance traveled, race, city, etc.</p>
 <p>The idea would be to show that mobility access is an important factor when designing a city and that we should think about repairing communities and our built environment by creating sustainable, multimodal options.</p>
+<h2 id="milestone-2-research-question">Milestone 2 – Research question</h2>
+<p>Does transit access improve accessibility to jobs in Boston, Massachusetts? In this study, I plan to examine to what extent high access to public transit improves job accessibility in the greater Boston area (by either census block or census block group). I hypothesize that areas with a lower average travel times for transit increase the number of jobs a person can reach from a given census area within the travel time threshold.</p>
+<p>In urban environments, people access jobs, education, recreational facilities, and other services via many different modes of transportation. Transit is often the most effective way to get around a city. Moreover, how long it takes someone to travel a certain distance from their home – 60 km in this dataset – depends on the mobility access available to them. A bike can travel 60 km faster than walking can. In this vein, expect that successful transit systems improve job accessibility for people, since faster service would mean greater “reach” via transit. In Boston, areas with better transit access may tend to improve job access.</p>
+<p>My explanatory variable is the “travel time threshold,” a calculation for travel time to all other blocks within 60km for each departure time at 1-minute intervals. The outcome variable is the average job accessibility, a measure which counts the number of opportunities (in this case, jobs) reachable from each origin within 10, 20, 30, 40, 50, and 60 minutes.</p>
+<p>These variables (and dataset) come from a July 2023 study from the Accessibility Observatory at the University of Minnesota. If I observe a negative association, where low average travel times correlate with high job access, that would provide support for my thesis. If I observe a positive or no association, where low average travel times correlate with low job access OR travel times do not correlate with job access, then there would not be enough support for my thesis. A regression analysis will help determine this.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -22,12 +22,6 @@ The idea would be to show that mobility access is an important factor when desig
 ## Milestone 2 -- Research question
 
 
-    State your research question.
-    Formulate a hypothesis related to the research question. This hypothesis should be rooted in some sort of theory. In other words, you need to present a plausible story why the hypothesis might be true. Often, this is in the form of a behaviorial or institutional explanation. As social scientists, we are not interested in idiosyncratic explanations; we want to understand systematic patterns and relationships!
-    Describe your explanatory variable(s) of interest and how it is measured. Importantly, we need to observe variation in this variable in order to study it!
-    Describe your outcome variable of interest and how it is measured.
-    What observed pattern in the data would provide support for your hypothesis? More importantly, what observed pattern would disprove your hypothesis?
-
 Does transit access improve accessibility to jobs in Boston, Massachusetts? In this study, I plan to examine to what extent high access to public transit improves job accessibility in the greater Boston area (by either census block or census block group). I hypothesize that areas with a lower average travel times for transit increase the number of jobs a person can reach from a given census area within the travel time threshold.
 
 In urban environments, people access jobs, education, recreational facilities, and other services via many different modes of transportation. Transit is often the most effective way to get around a city. Moreover, how long it takes someone to travel a certain distance from their home -- 60 km in this dataset -- depends on the mobility access available to them. A bike can travel 60 km faster than walking can. In this vein, expect that successful transit systems improve job accessibility for people, since faster service would mean greater "reach" via transit. In Boston, areas with better transit access may tend to improve job access.
