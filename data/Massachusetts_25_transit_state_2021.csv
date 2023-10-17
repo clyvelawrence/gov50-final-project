@@ -1,0 +1,13 @@
+mode,year,parent_area,state,summary_level,geoid,geo_name,threshold,weighted_average
+transit,2021,25,Massachusetts,state,25,Massachusetts,300,227.114268308217
+transit,2021,25,Massachusetts,state,25,Massachusetts,600,1315.14012199099
+transit,2021,25,Massachusetts,state,25,Massachusetts,900,4100.41260044292
+transit,2021,25,Massachusetts,state,25,Massachusetts,1200,9685.11868616908
+transit,2021,25,Massachusetts,state,25,Massachusetts,1500,19604.5900106305
+transit,2021,25,Massachusetts,state,25,Massachusetts,1800,34229.2240310724
+transit,2021,25,Massachusetts,state,25,Massachusetts,2100,53870.73951672
+transit,2021,25,Massachusetts,state,25,Massachusetts,2400,79439.8608639448
+transit,2021,25,Massachusetts,state,25,Massachusetts,2700,108829.731324484
+transit,2021,25,Massachusetts,state,25,Massachusetts,3000,140060.101298624
+transit,2021,25,Massachusetts,state,25,Massachusetts,3300,172466.396868596
+transit,2021,25,Massachusetts,state,25,Massachusetts,3600,205103.251783224

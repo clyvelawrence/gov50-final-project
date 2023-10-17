@@ -9,7 +9,7 @@ output:
 
 
 
-## Project thoughts
+## Milestone 1 -- Project thoughts
 
 I am interested in exploring data related to mobility justice or transit. It would be interesting to do a project about access to public transportation like trains and buses. For example, how does access to transit differ in regions across the world? How far does the average person have to travel to access their transit services?
 
@@ -18,3 +18,20 @@ There is UN sustainability data about transportation accessibility that I might 
 I could also do something based on bike lanes, with variables like distance traveled, race, city, etc.
 
 The idea would be to show that mobility access is an important factor when designing a city and that we should think about repairing communities and our built environment by creating sustainable, multimodal options.
+
+## Milestone 2 -- Research question
+
+
+    State your research question.
+    Formulate a hypothesis related to the research question. This hypothesis should be rooted in some sort of theory. In other words, you need to present a plausible story why the hypothesis might be true. Often, this is in the form of a behaviorial or institutional explanation. As social scientists, we are not interested in idiosyncratic explanations; we want to understand systematic patterns and relationships!
+    Describe your explanatory variable(s) of interest and how it is measured. Importantly, we need to observe variation in this variable in order to study it!
+    Describe your outcome variable of interest and how it is measured.
+    What observed pattern in the data would provide support for your hypothesis? More importantly, what observed pattern would disprove your hypothesis?
+
+Does transit access improve accessibility to jobs in Boston, Massachusetts? In this study, I plan to examine to what extent high access to public transit improves job accessibility in the greater Boston area (by either census block or census block group). I hypothesize that areas with a lower average travel times for transit increase the number of jobs a person can reach from a given census area within the travel time threshold.
+
+In urban environments, people access jobs, education, recreational facilities, and other services via many different modes of transportation. Transit is often the most effective way to get around a city. Moreover, how long it takes someone to travel a certain distance from their home -- 60 km in this dataset -- depends on the mobility access available to them. A bike can travel 60 km faster than walking can. In this vein, expect that successful transit systems improve job accessibility for people, since faster service would mean greater "reach" via transit. In Boston, areas with better transit access may tend to improve job access.
+
+My explanatory variable is the "travel time threshold," a calculation for travel time to all other blocks within 60km for each departure time at 1-minute intervals. The outcome variable is the average job accessibility, a measure which counts the number of opportunities (in this case, jobs) reachable from each origin within 10, 20, 30, 40, 50, and 60 minutes.
+
+These variables (and dataset) come from a July 2023 study from the Accessibility Observatory at the University of Minnesota. If I observe a negative association, where low average travel times correlate with high job access, that would provide support for my thesis. If I observe a positive or no association, where low average travel times correlate with low job access OR travel times do not correlate with job access, then there would not be enough support for my thesis. A regression analysis will help determine this.
