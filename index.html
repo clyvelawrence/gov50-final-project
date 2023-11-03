@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/Massachusetts_25_transit_block_2021.csv","data/Massachusetts_25_transit_block_group_2021.csv","data/Massachusetts_25_transit_census_tract_2021.csv","data/Massachusetts_25_transit_county_2021.csv","data/Massachusetts_25_transit_state_2021.csv","data/README.txt","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/ACSDT5Y2021.B08301-Data.csv","data/ACSST5Y2021.S0802-Data.csv","data/Massachusetts_25_transit_block_2021.csv","data/Massachusetts_25_transit_block_group_2021.csv","data/Massachusetts_25_transit_census_tract_2021.csv","data/Massachusetts_25_transit_county_2021.csv","data/Massachusetts_25_transit_state_2021.csv","data/README.txt","figures/census_levels.jpg","figures/fips_code.png","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-2-2.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1523,10 +1523,130 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>I could also do something based on bike lanes, with variables like distance traveled, race, city, etc.</p>
 <p>The idea would be to show that mobility access is an important factor when designing a city and that we should think about repairing communities and our built environment by creating sustainable, multimodal options.</p>
 <h2 id="milestone-2-research-question">Milestone 2 – Research question</h2>
-<p>Does transit access improve accessibility to jobs in Boston, Massachusetts? In this study, I plan to examine to what extent high access to public transit improves job accessibility in the greater Boston area (by either census block or census block group). I hypothesize that areas with a lower average travel times for transit increase the number of jobs a person can reach from a given census area within the travel time threshold.</p>
-<p>In urban environments, people access jobs, education, recreational facilities, and other services via many different modes of transportation. Transit is often the most effective way to get around a city. Moreover, how long it takes someone to travel a certain distance from their home – 60 km in this dataset – depends on the mobility access available to them. A bike can travel 60 km faster than walking can. In this vein, expect that successful transit systems improve job accessibility for people, since faster service would mean greater “reach” via transit. In Boston, areas with better transit access may tend to improve job access.</p>
-<p>My explanatory variable is the “travel time threshold,” a calculation for travel time to all other blocks within 60km for each departure time at 1-minute intervals. The outcome variable is the average job accessibility, a measure which counts the number of opportunities (in this case, jobs) reachable from each origin within 10, 20, 30, 40, 50, and 60 minutes.</p>
-<p>These variables (and dataset) come from a July 2023 study from the Accessibility Observatory at the University of Minnesota. If I observe a negative association, where low average travel times correlate with high job access, that would provide support for my thesis. If I observe a positive or no association, where low average travel times correlate with low job access OR travel times do not correlate with job access, then there would not be enough support for my thesis. A regression analysis will help determine this.</p>
+<p><em>Does accessibility to jobs by transit improve transit usage in Boston, Massachusetts?</em> How much of a population’s transit usage (as a means of transportation to work) can be explained by job access? In this study, I plan to examine to what extent access to jobs via transit increases transit commuting rates in the greater Boston area.</p>
+<p>I hypothesize that high accessibility to jobs by transit increases the use of transit as a means of transportation to work.</p>
+<p>In urban environments, people access jobs, education, recreational facilities, and other services via many different modes of transportation. Because of its ability to move large amounts of people, transit is seen as an effective way to get around a city. However, the United States suffers from relatively poor transit performance in metropolitan areas. Through the Massachusetts Bay Transportation Authority (MBTA), Boston commuters have several public transportation options: bus service, heavy rail, light rail, and commuter rail.</p>
+<p>I define job accessibility as the average number of jobs a person can reach from a specific census tract within a given time threshold. For this study, I will assume that components such as traveling to the nearest transit station or waiting at the station are included in the calculation of transit travel times. Owen et al. (2023) goes into more detail about the methodology.</p>
+<p>How long it takes someone to travel a certain distance from their home – 60 km in this dataset – heavily influences their physical, social, and economic mobility. Short commute times allow workers to reach more opportunities because they can go further distances more efficiently.</p>
+<p>In this vein, successful transit systems improve job accessibility for people, since faster service would mean greater “reach” via transit. I expect that in Boston, high job accessibility by transit would increase rates of transit commuting.</p>
+<p>My explanatory variable is “job accessibility by transit” a cumulative opportunities accessibility measure which counts the number of opportunities (in this case, jobs) reachable from each origin within a census tract within a given travel time threshold (up to 60 minutes or 3600 seconds). For example, a census tract X in Boston may have 500 jobs reachable by transit within 60 minutes.</p>
+<p>The outcome variable is the rate of transit usage as a means of transportation to work. Based on 2021 American Community Survey data, we will measure what percentage of people in a census tract get to work by public transportation. For example, let’s say about 35% of workers in census tract X take transit.</p>
+<p>The job accessibility variable comes from a July 2023 study from the Accessibility Observatory at the University of Minnesota, and the means of transportation variable comes from the 2021 American Community Survey.</p>
+<p>If I observe a positive association, where high job accessibility by transit correlates with high transit usage (as a means of transportation to work), that would provide support for my thesis. If I observe a negative or no association, where high job accessibility by transit correlates with low transit usage OR job accessibility does not correlate with transit usage, then there would not be enough support for my thesis. A regression analysis will help determine this.</p>
+<h2 id="milestone-3-one-data-visualization">Milestone 3 – One data visualization</h2>
+<p>For this project, I will analyze data from the following:</p>
+<p>Owen, Andrew, et al. <a href="https://doi.org/10.13020/cxkh-at83">Access Across America: Transit 2021 Data</a>. University of Minnesota Center for Transportation Studies, Accessibility Observatory (2023).</p>
+<p>U.S. Census Bureau, <a href="https://data.census.gov/table/ACSST5Y2021.S0802?g=040XX00US25$1400000&amp;y=2021">American Community Survey: Tables S0802 and B08301</a>. ACS 5-Year Estimates Data Profiles (2021).</p>
+<p>Owen et al. examined the accessibility to jobs by transit across the United States. Their study is the most detailed evaluation to date of access to jobs by transit, and it allows for a direct comparison of the transit accessibility performance of America’s metropolitan areas. These data are part of a longitudinal study. Transit data for additional years can be found in the Accessibility Observatory Data collection: <a href="http://hdl.handle.net/11299/200592" class="uri">http://hdl.handle.net/11299/200592</a></p>
+<p>The U.S. Census Bureau conducts an annual demographics survey, called the American Community Survey, in the form of estimates, in a variety of tables, tools, and analytical reports.</p>
+<p>For Owen et al., We will use the data from this paper, contained in the <code>data/Massachusetts_25_transit_census_tract_2021.csv</code> file, to explore transit accessibility. A description of the variables is listed below:</p>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>mode</code></td>
+<td>The type of travel modes, one of auto; bike; or transit</td>
+</tr>
+<tr class="even">
+<td><code>year</code></td>
+<td>NAE data year, the year for which this dataset is relevant</td>
+</tr>
+<tr class="odd">
+<td><code>parent_area</code></td>
+<td>The ID of the containing geography within which the data averages are calculated</td>
+</tr>
+<tr class="even">
+<td><code>summary_level</code></td>
+<td>Level of geography at which averages are calculated; state, county, census tract, block group, or block</td>
+</tr>
+<tr class="odd">
+<td><code>geoid</code></td>
+<td>The ID of the particular census geography for which the data averages are calculated</td>
+</tr>
+<tr class="even">
+<td><code>threshold</code></td>
+<td>The travel time threshold in seconds, ranging from 300 to 3600 seconds</td>
+</tr>
+<tr class="odd">
+<td><code>weighted_average</code></td>
+<td>Average number of jobs a person can reach from a given census area within the travel time threshold for a specific mode</td>
+</tr>
+</tbody>
+</table>
+<p>For ACS data, we will use the <code>data/ACSDP5Y2021.S0802-Data.csv</code> and <code>data/ACSDP5Y2021.B08301-Data.csv</code> files to get more information about demographics and transit usage rates by census tract.</p>
+<p><em>Note the <code>geoid</code> variable refers to the FIPS code, a 15-digit number that begins with the state identifier and ends with the block identifier. It consists of the 2-character state FIPS code, the 3-character county FIPS code, the 6-character census tract code, and the 4-character tabulation block code.</em></p>
+<p><img src="figures/fips_code.png" /></p>
+<p>To determine whether high job access by transit increases transit usage in Boston, I will begin by loading my data and producing one data visualization.</p>
+<p>For this milestone, I will show the distribution of job accessibility by county.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## Loading packages</span></span>
+<span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://sjmgarnier.github.io/viridisLite/'>viridisLite</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>## Loading job access data for the county-level</span></span>
+<span></span>
+<span><span class='va'>transit_county</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"data/Massachusetts_25_transit_county_2021.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span><span class='co'>## Subset travel time threshold</span></span>
+<span></span>
+<span><span class='va'>transit_county_3600</span> <span class='op'>&lt;-</span> <span class='va'>transit_county</span> <span class='op'>|&gt;</span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>threshold</span> <span class='op'>==</span> <span class='fl'>3600</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>Now I will make a barplot.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## Job access barplot</span></span>
+<span></span>
+<span><span class='va'>transit_county_3600</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/fct_reorder.html'>fct_reorder</a></span><span class='op'>(</span><span class='va'>geo_name</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>weighted_average</span><span class='op'>)</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>weighted_average</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/fct_reorder.html'>fct_reorder</a></span><span class='op'>(</span><span class='va'>geo_name</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>weighted_average</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Transit Access to Jobs by MA County"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"County"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Average number of jobs reachable within 60 minutes"</span>,</span>
+<span>       fill <span class='op'>=</span> <span class='st'>"County"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_d</a></span><span class='op'>(</span>option <span class='op'>=</span> <span class='st'>"viridis"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"bottom"</span>,</span>
+<span>        legend.text <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span>,</span>
+<span>        legend.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span>,</span>
+<span>        plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>,</span>
+<span>        axis.title.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span>,</span>
+<span>        axis.title.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="1632" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## Job access barplot (logarithm)</span></span>
+<span></span>
+<span><span class='va'>transit_county_3600</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/fct_reorder.html'>fct_reorder</a></span><span class='op'>(</span><span class='va'>geo_name</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>weighted_average</span><span class='op'>)</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span><span class='op'>(</span><span class='va'>weighted_average</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/fct_reorder.html'>fct_reorder</a></span><span class='op'>(</span><span class='va'>geo_name</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>weighted_average</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Transit Access to Jobs by MA County (Log Scale)"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"County"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Average number of jobs reachable within 60 minutes"</span>,</span>
+<span>       fill <span class='op'>=</span> <span class='st'>"County"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_viridis.html'>scale_fill_viridis_d</a></span><span class='op'>(</span>option <span class='op'>=</span> <span class='st'>"viridis"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>1000</span>, <span class='fl'>100000</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"bottom"</span>,</span>
+<span>        legend.text <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span>,</span>
+<span>        legend.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span>,</span>
+<span>        plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>,</span>
+<span>        axis.title.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span>,</span>
+<span>        axis.title.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-2-2.png" width="1632" /></p>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

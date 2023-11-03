@@ -11,6 +11,7 @@ output:
 
 ## Milestone 1 -- Project thoughts
 
+
 I am interested in exploring data related to mobility justice or transit. It would be interesting to do a project about access to public transportation like trains and buses. For example, how does access to transit differ in regions across the world? How far does the average person have to travel to access their transit services?
 
 There is UN sustainability data about transportation accessibility that I might look at (some of which I already downloaded to install here later, maybe).
@@ -19,13 +20,127 @@ I could also do something based on bike lanes, with variables like distance trav
 
 The idea would be to show that mobility access is an important factor when designing a city and that we should think about repairing communities and our built environment by creating sustainable, multimodal options.
 
+
 ## Milestone 2 -- Research question
 
 
-Does transit access improve accessibility to jobs in Boston, Massachusetts? In this study, I plan to examine to what extent high access to public transit improves job accessibility in the greater Boston area (by either census block or census block group). I hypothesize that areas with a lower average travel times for transit increase the number of jobs a person can reach from a given census area within the travel time threshold.
+*Does accessibility to jobs by transit improve transit usage in Boston, Massachusetts?* How much of a population's transit usage (as a means of transportation to work) can be explained by job access? In this study, I plan to examine to what extent access to jobs via transit increases transit commuting rates in the greater Boston area. 
 
-In urban environments, people access jobs, education, recreational facilities, and other services via many different modes of transportation. Transit is often the most effective way to get around a city. Moreover, how long it takes someone to travel a certain distance from their home -- 60 km in this dataset -- depends on the mobility access available to them. A bike can travel 60 km faster than walking can. In this vein, expect that successful transit systems improve job accessibility for people, since faster service would mean greater "reach" via transit. In Boston, areas with better transit access may tend to improve job access.
+I hypothesize that high accessibility to jobs by transit increases the use of transit as a means of transportation to work.
 
-My explanatory variable is the "travel time threshold," a calculation for travel time to all other blocks within 60km for each departure time at 1-minute intervals. The outcome variable is the average job accessibility, a measure which counts the number of opportunities (in this case, jobs) reachable from each origin within 10, 20, 30, 40, 50, and 60 minutes.
+In urban environments, people access jobs, education, recreational facilities, and other services via many different modes of transportation. Because of its ability to move large amounts of people, transit is seen as an effective way to get around a city. However, the United States suffers from relatively poor transit performance in metropolitan areas. Through the Massachusetts Bay Transportation Authority (MBTA), Boston commuters have several public transportation options: bus service, heavy rail, light rail, and commuter rail.
 
-These variables (and dataset) come from a July 2023 study from the Accessibility Observatory at the University of Minnesota. If I observe a negative association, where low average travel times correlate with high job access, that would provide support for my thesis. If I observe a positive or no association, where low average travel times correlate with low job access OR travel times do not correlate with job access, then there would not be enough support for my thesis. A regression analysis will help determine this.
+I define job accessibility as the average number of jobs a person can reach from a specific census tract within a given time threshold. For this study, I will assume that components such as traveling to the nearest transit station or waiting at the station are included in the calculation of transit travel times. Owen et al. (2023) goes into more detail about the methodology. 
+
+How long it takes someone to travel a certain distance from their home -- 60 km in this dataset -- heavily influences their physical, social, and economic mobility. Short commute times allow workers to reach more opportunities because they can go further distances more efficiently. 
+
+In this vein, successful transit systems improve job accessibility for people, since faster service would mean greater "reach" via transit. I expect that in Boston, high job accessibility by transit would increase rates of transit commuting.
+
+My explanatory variable is "job accessibility by transit" a  cumulative opportunities accessibility measure which counts the number of opportunities (in this case, jobs) reachable from each origin within a census tract within a given travel time threshold (up to 60 minutes or 3600 seconds). For example, a census tract X in Boston may have 500 jobs reachable by transit within 60 minutes.
+
+The outcome variable is the rate of transit usage as a means of transportation to work. Based on 2021 American Community Survey data, we will measure what percentage of people in a census tract get to work by public transportation. For example, let's say about 35% of workers in census tract X take transit.
+
+The job accessibility variable comes from a July 2023 study from the Accessibility Observatory at the University of Minnesota, and the means of transportation variable comes from the 2021 American Community Survey. 
+
+If I observe a positive association, where high job accessibility by transit correlates with high transit usage (as a means of transportation to work), that would provide support for my thesis. If I observe a negative or no association, where high job accessibility by transit correlates with low transit usage OR job accessibility does not correlate with transit usage, then there would not be enough support for my thesis. A regression analysis will help determine this.
+
+
+## Milestone 3 -- One data visualization
+
+
+For this project, I will analyze data from the following:
+
+Owen, Andrew, et al. [Access Across America: Transit 2021 Data](https://doi.org/10.13020/cxkh-at83). University of Minnesota Center for Transportation Studies, Accessibility Observatory (2023).
+
+U.S. Census Bureau, [American Community Survey: Tables S0802 and B08301](https://data.census.gov/table/ACSST5Y2021.S0802?g=040XX00US25$1400000&y=2021). ACS 5-Year Estimates Data Profiles (2021).
+
+Owen et al. examined the accessibility to jobs by transit across the United States. Their study is the most detailed evaluation to date of access to jobs by transit, and it allows for a direct comparison of the transit accessibility performance of America's metropolitan areas. These data are part of a longitudinal study. Transit data for additional years can be found in the Accessibility Observatory Data collection: http://hdl.handle.net/11299/200592
+
+The U.S. Census Bureau conducts an annual demographics survey, called the American Community Survey, in the form of estimates, in a variety of tables, tools, and analytical reports.
+
+For Owen et al., We will use the data from this paper, contained in the `data/Massachusetts_25_transit_census_tract_2021.csv` file, to explore transit accessibility. A description of the variables is listed below:
+
+| Name              | Description                                                                                                |
+|-------------------|------------------------------------------------------------------------------------------------------------|
+| `mode`            | The type of travel modes, one of auto; bike; or transit                                                    |
+| `year`            | NAE data year, the year for which this dataset is relevant                                                 |
+| `parent_area`     | The ID of the containing geography within which the data averages are calculated                           |
+| `summary_level`   | Level of geography at which averages are calculated; state, county, census tract, block group, or block    |
+| `geoid`           | The ID of the particular census geography for which the data averages are calculated                       |
+| `threshold`       | The travel time threshold in seconds, ranging from 300 to 3600 seconds                                     |
+| `weighted_average`| Average number of jobs a person can reach from a given census area within the travel time threshold for a specific                       mode                                                                                                       |
+
+For ACS data, we will use the `data/ACSDP5Y2021.S0802-Data.csv` and `data/ACSDP5Y2021.B08301-Data.csv` files to get more information about demographics and transit usage rates by census tract.
+
+*Note the `geoid` variable refers to the FIPS code, a 15-digit number that begins with the state identifier and ends with the block identifier. It consists of the 2-character state FIPS code, the 3-character county FIPS code, the 6-character census tract code, and the 4-character tabulation block code.*
+
+![](figures/fips_code.png)
+
+To determine whether high job access by transit increases transit usage in Boston, I will begin by loading my data and producing one data visualization.
+
+For this milestone, I will show the distribution of job accessibility by county.
+
+```{r}
+
+## Loading packages
+
+library(tidyverse)
+library(viridisLite)
+
+## Loading job access data for the county-level
+
+transit_county <- read_csv("data/Massachusetts_25_transit_county_2021.csv")
+
+
+## Subset travel time threshold
+
+transit_county_3600 <- transit_county |> 
+  filter(threshold == 3600)
+```
+
+Now I will make a barplot.
+
+```{r, fig.width = 17, fig.height = 10}
+
+## Job access barplot
+
+transit_county_barplot <- transit_county_3600 |>
+  ggplot(mapping = aes(x = fct_reorder(geo_name, desc(weighted_average)), y = weighted_average)) +
+  geom_col(aes(fill = fct_reorder(geo_name, desc(weighted_average)))) +
+  labs(title = "Transit Access to Jobs by MA County",
+       x = "County",
+       y = "Average number of jobs reachable within 60 minutes",
+       fill = "County") +
+  scale_fill_viridis_d(option = "viridis") +
+  theme(legend.position = "bottom",
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 14),
+        plot.title = element_text(size = 20),
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14))
+
+transit_county_barplot
+
+
+## Job access barplot (logarithm)
+
+transit_county_3600 |>
+  ggplot(mapping = aes(x = fct_reorder(geo_name, desc(weighted_average)), y = log10(weighted_average))) +
+  geom_col(aes(fill = fct_reorder(geo_name, desc(weighted_average)))) +
+  labs(title = "Transit Access to Jobs by MA County (Log Scale)",
+       x = "County",
+       y = "Average number of jobs reachable within 60 minutes",
+       fill = "County") +
+  scale_fill_viridis_d(option = "viridis") +
+  scale_y_continuous(breaks = c(1, 3, 5), labels = c(10, 1000, 100000)) +
+  theme(legend.position = "bottom",
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 14),
+        plot.title = element_text(size = 20),
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14))
+
+
+```
+
+
