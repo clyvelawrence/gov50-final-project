@@ -36,9 +36,9 @@ How long it takes someone to travel a certain distance from their home -- 60 km 
 
 In this vein, successful transit systems improve job accessibility for people, since faster service would mean greater "reach" via transit. I expect that in Boston, high job accessibility by transit would increase rates of transit commuting.
 
-My explanatory variable is "job accessibility by transit" a  cumulative opportunities accessibility measure which counts the number of opportunities (in this case, jobs) reachable from each origin within a census tract within a given travel time threshold (up to 60 minutes or 3600 seconds). For example, a census tract X in Boston may have 500 jobs reachable by transit within 60 minutes.
+My explanatory variable is "job accessibility by transit" a  cumulative opportunities accessibility measure which counts the number of opportunities (in this case, jobs) reachable from each origin within a census tract within a given travel time threshold (up to 60 minutes or 3600 seconds). For example, a census tract *X* in Boston may have 500 jobs reachable by transit within 60 minutes.
 
-The outcome variable is the rate of transit usage as a means of transportation to work. Based on 2021 American Community Survey data, we will measure what percentage of people in a census tract get to work by public transportation. For example, let's say about 35% of workers in census tract X take transit.
+The outcome variable is the rate of transit usage as a means of transportation to work. Based on 2021 American Community Survey data, we will measure what percentage of people in a census tract get to work by public transportation. For example, let's say about 35% of workers in census tract *X* take transit.
 
 The job accessibility variable comes from a July 2023 study from the Accessibility Observatory at the University of Minnesota, and the means of transportation variable comes from the 2021 American Community Survey. 
 
@@ -58,7 +58,7 @@ Owen et al. examined the accessibility to jobs by transit across the United Stat
 
 The U.S. Census Bureau conducts an annual demographics survey, called the American Community Survey, in the form of estimates, in a variety of tables, tools, and analytical reports.
 
-For Owen et al., We will use the data from this paper, contained in the `data/Massachusetts_25_transit_census_tract_2021.csv` file, to explore transit accessibility. A description of the variables is listed below:
+For Owen et al., We will use the data from this paper, contained in the `data/Massachusetts_25_transit_county_2021.csv` and `data/Massachusetts_25_transit_census_tract_2021.csv` files, to explore transit accessibility. A description of the variables is listed below:
 
 | Name              | Description                                                                                                |
 |-------------------|------------------------------------------------------------------------------------------------------------|
@@ -70,7 +70,7 @@ For Owen et al., We will use the data from this paper, contained in the `data/Ma
 | `threshold`       | The travel time threshold in seconds, ranging from 300 to 3600 seconds                                     |
 | `weighted_average`| Average number of jobs a person can reach from a given census area within the travel time threshold for a specific                       mode                                                                                                       |
 
-For ACS data, we will use the `data/ACSDP5Y2021.S0802-Data.csv` and `data/ACSDP5Y2021.B08301-Data.csv` files to get more information about demographics and transit usage rates by census tract.
+For ACS data, we will use the `data/ACSDP5Y2021_S0802_Data.csv` and `data/ACSDP5Y2021_B08301_Data.csv` files to get more information about demographics and transit usage rates by census tract. The **B08301** Table is "MEANS OF TRANSPORTATION TO WORK" and the **S0802** table is "MEANS OF TRANSPORTATION TO WORK BY SELECTED CHARACTERISTICS".
 
 *Note the `geoid` variable refers to the FIPS code, a 15-digit number that begins with the state identifier and ends with the block identifier. It consists of the 2-character state FIPS code, the 3-character county FIPS code, the 6-character census tract code, and the 4-character tabulation block code.*
 
@@ -86,6 +86,8 @@ For this milestone, I will show the distribution of job accessibility by county.
 
 library(tidyverse)
 library(viridisLite)
+library(broom)
+options(scipen = 999)
 
 ## Loading job access data for the county-level
 
@@ -96,6 +98,7 @@ transit_county <- read_csv("data/Massachusetts_25_transit_county_2021.csv")
 
 transit_county_3600 <- transit_county |> 
   filter(threshold == 3600)
+
 ```
 
 Now I will make a barplot.
@@ -111,10 +114,8 @@ transit_county_barplot <- transit_county_3600 |>
        x = "County",
        y = "Average number of jobs reachable within 60 minutes",
        fill = "County") +
-  scale_fill_viridis_d(option = "viridis") +
-  theme(legend.position = "bottom",
-        legend.text = element_text(size = 14),
-        legend.title = element_text(size = 14),
+  scale_fill_viridis_d(option = "viridis", begin = 0, end = 0.8) +
+  theme(legend.position = "none",
         plot.title = element_text(size = 20),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14))
@@ -122,25 +123,228 @@ transit_county_barplot <- transit_county_3600 |>
 transit_county_barplot
 
 
-## Job access barplot (logarithm)
+```
+
+
+## Milestone 4 -- One analysis
+
+I will create a table of Massachusetts counties including their geoids. Then I will load in the demographic data for Massachusetts census tracts.
+
+```{r}
+
+## MA counties w/ geoids
 
 transit_county_3600 |>
-  ggplot(mapping = aes(x = fct_reorder(geo_name, desc(weighted_average)), y = log10(weighted_average))) +
-  geom_col(aes(fill = fct_reorder(geo_name, desc(weighted_average)))) +
-  labs(title = "Transit Access to Jobs by MA County (Log Scale)",
+  select(geoid, geo_name) |>
+  knitr::kable(col.names = c("FIPS Code", "County"))
+```
+
+### Loading and cleaning up demographic data for B08301 "MEANS OF TRANSPORTATION TO WORK"
+
+```{r}
+
+B08301 <- read_csv("data/ACSDT5Y2021_B08301_Data.csv")
+
+```
+
+It appears that there are columns with "null" values. These will be converted to NA values and then removed.
+
+```{r}
+
+B08301[B08301 == "null"] <- NA ## converting "null" values to NAs
+
+B08301 <- B08301 |> 
+  select(where(~ !any(is.na(.)))) ## removing all columns with NA values
+
+```
+
+The first row of the data contains the column names we want. For example, the `NAME` column contains the intended column name, `Geographic Area Name`. I will rename the columns to those on the first row.
+
+```{r}
+
+## setting column names using the first row
+
+colnames(B08301) <- B08301[1, ]
+B08301 <- B08301[-1, ] ## removing the first row
+
+```
+
+Then I will change the names and prefixes of the `Geography` (formerly `GEO_ID`) column to match that of the transit accessibility data. I will also create new columns for the county each census tract is in (effectively separating the `Geographic Area Name` column into separate ones). Finally, I will change the class of certain columns to <dbl>.
+
+```{r}
+
+## changing `Geography` to `geoid`
+
+B08301 <- B08301 |>
+  rename(geoid = Geography)
+
+## removing prefixes
+
+B08301$geoid <- sub("^1400000US", "", B08301$geoid)
+
+## splitting `Geographic Area Name`
+
+B08301 <- B08301 |>
+  separate("Geographic Area Name", into = c("census_tract", "county", "state"), sep = ", ")
+
+
+## changing class
+
+B08301 <- B08301 |>
+  mutate(
+    across(
+      contains("Total"), as.double),
+    across(
+      contains("geoid"), as.double
+    )
+  )
+
+head(B08301)
+
+```
+
+### Regression analysis
+
+To determine the relationship between job accessibility by transit and rates of transit usage, I will conduct a regression analysis using census tract data.
+
+First I will load the job access data by census tract and join it with the B08301 data.
+
+```{r}
+
+## Loading job access data for the census tract-level
+
+transit_census_tract <- read_csv("data/Massachusetts_25_transit_census_tract_2021.csv")
+
+## Subset travel time threshold
+
+transit_census_tract_3600 <- transit_census_tract |> 
+  filter(threshold == 3600)
+
+## joining B08301 and transit_census_tract_3600
+
+transit_census_tract_3600 <- transit_census_tract_3600 |>
+  inner_join(B08301)
+
+head(transit_census_tract_3600)
+
+```
+
+Now I will begin the regression analysis using ggplot. First I want to display a scatterplot by county and make observations.
+
+```{r}
+
+## calculating transit usage rate
+
+transit_census_tract_3600 <- transit_census_tract_3600 |>
+  mutate(
+    transit_rate = `Estimate!!Total:!!Public transportation (excluding taxicab):` / `Estimate!!Total:`
+  ) |>
+  select(mode:`Estimate!!Total:`, 
+         `Estimate!!Total:!!Public transportation (excluding taxicab):`, 
+         transit_rate, everything())
+
+## scatterplot
+
+transit_census_tract_3600 |>
+  ggplot(mapping = aes(x = weighted_average, y = transit_rate * 100)) +
+  geom_point(mapping = aes(color = county)) +
+  labs(title = "Transit Accessibility and Transit Usage by MA Census Tract", 
+       x = "Average number of jobs reachable within 60 minutes",
+       y = "Transit usage rate (%)",
+       color = "County") +
+  scale_color_viridis_d(option = "turbo", begin = 0, end = 1, alpha = .5, direction = -1)
+
+```
+
+The scatterplot reveals two notable outliers. 
+
+- One point corresponds to Census Tract 9813, in which 100% of people use transit as a means of transportation to work. Census Tract 9813 is Boston Logan International Airport, and 4 people responded to the ACS there in 2021. The high job accessibility via transit -- over 987,000 jobs -- reflects the airport's central location within the Boston area.
+
+- The other point corresponds to Census Tract 9801.01, in which there is no apparent access to jobs via transit, yet had a transit usage rate of 77%. Census Tract 9801.01 is Deer Island, a peninsula in Boston, Massachusetts. 79 people responded to the ACS there in 2021. Deer Island is mainly used for wastewater treatment and recreation.
+
+
+The below grouping and plotting is similar to the transit_county_3600 analysis done earlier, but in a ground-up way instead of using Owens et al.'s specific data. This change allows us to determine the transit rate for counties.
+
+```{r, fig.width = 17, fig.height = 10}
+
+## creating county-level data
+
+transit_counties_3600 <- transit_census_tract_3600 |>
+  group_by(county) |>
+  summarize(transit_rate = mean(transit_rate, na.rm = TRUE),
+            weighted_average = mean(weighted_average, na.rm = TRUE))
+
+transit_counties_3600 |>
+  mutate(transit_rate = transit_rate * 100) |>
+  knitr::kable(col.names = c("County", "Transit usage rate (%)", "Average number of jobs reachable"), digits = c(0, 2, 0))
+
+## county-level barplot 
+
+transit_counties_barplot <- transit_counties_3600 |>
+  ggplot(mapping = aes(x = fct_reorder(county, desc(weighted_average)), y = weighted_average)) +
+  geom_col(aes(fill = fct_reorder(county, desc(weighted_average)))) +
+  labs(title = "Transit Access to Jobs by MA County",
        x = "County",
        y = "Average number of jobs reachable within 60 minutes",
        fill = "County") +
-  scale_fill_viridis_d(option = "viridis") +
-  scale_y_continuous(breaks = c(1, 3, 5), labels = c(10, 1000, 100000)) +
-  theme(legend.position = "bottom",
-        legend.text = element_text(size = 14),
-        legend.title = element_text(size = 14),
+  scale_fill_viridis_d(option = "viridis", begin = 0, end = 0.8) +
+  theme(legend.position = "none",
         plot.title = element_text(size = 20),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14))
 
+transit_counties_barplot
+
 
 ```
+
+Continuing the regression analysis:
+
+```{r}
+
+## regression line
+
+transit_census_tract_3600 |>
+  ggplot(mapping = aes(x = weighted_average, y = transit_rate * 100)) +
+  geom_point(color = "#1a4c6d", alpha = 0.3) +
+  labs(title = "Transit Accessibility and Transit Usage by MA Census Tract", 
+       x = "Average number of jobs reachable within 60 minutes",
+       y = "Transit usage rate (%)",
+       color = "County") +
+  geom_smooth(method = "lm", se = FALSE, color = "indianred1", size = 1)
+
+## line of best fit function and R^2
+
+transit_fit <- lm(transit_rate ~ weighted_average, data = transit_census_tract_3600)
+transit_fit
+
+glance(transit_fit)
+summary(transit_fit)$r.squared
+
+```
+Interpretations:
+
+- The R^2 value of the regression is 0.661. This means that 66% of the change in transit usage rate can be explained by its relationship with job accessibility by transit. The correlation coefficient (r) is 0.813. This means there is a strong positive linear association between job accessibility by transit and transit usage rate.
+
+- The slope of the linear regression line is 0.0000002672. This means that for each additional job accessible by transit, the predicted transit usage rate increases by 0.0000002672 percentage points.
+
+- The intercept of the prediction line is 0.0262. This means that at 0 jobs accessible by transit, there is a predicted transit usage rate of 2.62 percent.
+
+Concluding my regression analysis, I observe a positive association, where high job accessibility by transit correlates with high transit usage. Combined with the extremely low p-value, there is significant support for my thesis that high accessibility to jobs by transit increases the use of transit as a means of transportation to work.
+
+
+## Final milestone -- Write up final report (due 12/13)
+
+The final report will include the following sections: (1) an introduction where you introduce the research question and hypothesis and briefly describe why it is interesting; (2) a data section that briefly describes the data source, describes how the key dependent and independent variables are measured (e.g., a survey, statistical model, or expert coding), and also produces a plot that summarizes the dependent variable; (3) a results section that contains a scatterplot, barplot, or boxplot of the main relationship of interest and output for the main regression of interest; and (4) a brief (one paragraph) concluding section that summarizes your results, assesses the extent to which you find support for your hypothesis, describes limitations of your analysis and threats to inference, and states how your analysis could be improved (e.g., improved data that would be useful to collect).
+
+For the data section, you should note if your research design is cross-sectional (most projects will be of this type) or one of the other designs we discussed (randomized experiment, before-and-after, differences-in-differences). For the results section, you should interpret (in plain English) the main coefficient of interest in your regression. You should also comment on the statistical significance of the estimated coefficient and whether or not you believe the coefficient to represent a causal effect.
+
+
+
+
+
+
+
+
 
 
